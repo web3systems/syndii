@@ -1,0 +1,53 @@
+cat > .github/workflows/deploy.yml <<'EOF'
+name: Deploy to SiteGround
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy to SiteGround
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$DEPLOY_USER@$DEPLOY_HOST" <<'SSH_CMDS'
+            set -e
+            cd "$DEPLOY_PATH"
+
+            echo "🔄 Pulling latest code..."
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "📦 Installing PHP dependencies..."
+            composer install --no-dev --optimize-autoloader
+
+            echo "🛠 Running Laravel optimizations..."
+            php artisan migrate --force || true
+            php artisan config:cache || true
+            php artisan route:cache || true
+
+            if [ -f package.json ]; then
+              echo "📦 Installing Node dependencies..."
+              npm ci
+              npm run build
+            fi
+
+            echo "✅ Deployment complete!"
+SSH_CMDS
+EOF
