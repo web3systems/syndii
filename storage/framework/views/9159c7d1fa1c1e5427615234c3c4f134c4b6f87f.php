@@ -1,0 +1,2 @@
+<span class="fs-11 text-muted pl-3"><i class="fa-solid fa-bolt-lightning mr-2 text-primary"></i><?php echo e(__('Your Balance is')); ?> <span class="font-weight-semibold" id="balance-number"> <?php echo e($balance); ?></span> <?php if($settings->model_credit_name == 'words'): ?> <?php echo e(__('Words Left')); ?> <?php else: ?> <?php echo e(__('Tokens Left')); ?> <?php endif; ?></span>
+<?php /**PATH /home/customer/www/syndii.net/public_html/resources/views/default/components/balance-template.blade.php ENDPATH**/ ?>

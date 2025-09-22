@@ -1,0 +1,74 @@
+
+
+<?php $__env->startSection('page-header'); ?>
+	<!-- PAGE HEADER -->
+	<div class="page-header mt-5-7 justify-content-center">
+		<div class="page-leftheader text-center">
+			<h4 class="page-title mb-0"><img src="<?php echo e(theme_url('img/csp/xai.png')); ?>" class="fw-2 mr-2" alt=""> <?php echo e(__('xAI Settings')); ?></h4>
+			<ol class="breadcrumb mb-2 justify-content-center">
+				<li class="breadcrumb-item"><a href="<?php echo e(route('admin.dashboard')); ?>"><i class="fa-solid fa-microchip-ai mr-2 fs-12"></i><?php echo e(__('Admin')); ?></a></li>
+				<li class="breadcrumb-item" aria-current="page"><a href="<?php echo e(route('admin.davinci.configs')); ?>"> <?php echo e(__('AI Settings')); ?></a></li>
+				<li class="breadcrumb-item active" aria-current="page"><a href="#"> <?php echo e(__('API')); ?></a></li>
+			</ol>
+		</div>
+	</div>
+	<!-- END PAGE HEADER -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>						
+	<div class="row justify-content-center">
+		<div class="col-lg-7 col-md-12 col-sm-12">
+			<div class="card border-0">
+				<div class="card-body pt-7 pl-7 pr-7 pb-6">									
+					<form action="<?php echo e(route('admin.davinci.configs.api.xai.store')); ?>" method="post" enctype="multipart/form-data">
+						<?php echo csrf_field(); ?>
+						
+						<div class="card shadow-0 mb-6 pt-3">							
+							<div class="card-body">
+
+								<div class="row">
+									<div class="col-lg-12 col-sm-12 no-gutters">
+										<div class="row">							
+											<div class="col-sm-12">
+												<div class="input-box">								
+													<h6><?php echo e(__('xAI API Key')); ?> <span class="text-required"><i class="fa-solid fa-asterisk"></i></span></h6>
+													<div class="form-group">							    
+														<input type="text" class="form-control" name="xai_api" value="<?php echo e($config->xai_api); ?>" autocomplete="off">												
+													</div> 
+												</div> 
+											</div>
+										</div>												
+									</div>		
+									<div class="col-lg-12 col-sm-12 no-gutters">
+										<div class="row">							
+											<div class="col-sm-12">
+												<div class="input-box">								
+													<h6><?php echo e(__('xAI Base URL')); ?> <span class="text-required"><i class="fa-solid fa-asterisk"></i></span></h6>
+													<div class="form-group">							    
+														<input type="text" class="form-control" name="xai_base_url" value="<?php echo e($config->xai_base_url); ?>" autocomplete="off">												
+													</div> 
+												</div> 
+											</div>
+										</div>												
+									</div>							
+								</div>
+	
+							</div>
+						</div>
+
+
+						<!-- ACTION BUTTON -->
+						<div class="border-0 text-center mb-2 mt-1">
+							<button type="submit" class="btn ripple btn-primary pl-8 pr-8 pt-2 pb-2"><?php echo e(__('Save')); ?></button>							
+						</div>				
+
+					</form>					
+				</div>
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customer/www/syndii.net/public_html/resources/views/default/admin/davinci/configuration/vendors/xai/setting.blade.php ENDPATH**/ ?>
